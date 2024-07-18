@@ -1,31 +1,38 @@
 on:
   workflow_dispatch:
+    inputs:
+      job_name:
+        description: 'Select job to execute'
+        required: true
+        options:
+          - 'dev'
+          - 'staging'
+          - 'technical'
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Select environments
-        uses: dawsonone/multi-select@v4
-        id: select_env
-        with:
-          title: 'Select environments to deploy'
-          options: 'dev,staging,technical'
-          default: 'dev'  # Optional: Pre-select 'dev' by default
+      - name: Set job name
+        run: echo "Job Name: ${{ github.event.inputs.job_name }}"
 
-      - name: Run deployment for selected environments
+      - name: Execute job
+        if: ${{ github.event.inputs.job_name == 'dev' }}
         run: |
-          echo "Deploying to environments: ${{ steps.select_env.outputs.selectedOptions }}"
-          # Add your deployment logic here, using the selected environments
-          # This part will likely involve conditional checks based on the selected options
-          if [[ ${{ steps.select_env.outputs.selectedOptions }} == *"dev"* ]]; then
-              # Perform deployment steps for dev environment
-          fi
-          if [[ ${{ steps.select_env.outputs.selectedOptions }} == *"staging"* ]]; then
-              # Perform deployment steps for staging environment
-          fi
-          if [[ ${{ steps.select_env.outputs.selectedOptions }} == *"technical"* ]]; then
-              # Perform deployment steps for technical environment
-          fi
+          echo "Executing development job"
+          # Add commands for the development job here
+
+      - name: Execute job
+        if: ${{ github.event.inputs.job_name == 'staging' }}
+        run: |
+          echo "Executing staging job"
+          # Add commands for the staging job here
+
+      - name: Execute job
+        if: ${{ github.event.inputs.job_name == 'technical' }}
+        run: |
+          echo "Executing technical job"
+          # Add commands for the technical job here
