@@ -4,7 +4,7 @@ on:
       job_name:
         description: 'Select job to execute'
         required: true
-        type: choice
+        type: option
         options:
           - 'dev'
           - 'staging'
