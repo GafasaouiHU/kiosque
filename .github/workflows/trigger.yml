@@ -19,19 +19,19 @@ jobs:
       - name: Set job name
         run: echo "Job Name: ${{ github.event.inputs.job_name }}"
 
-      - name: Execute job
+      - name: Execute job0
         if: ${{ github.event.inputs.job_name == 'dev' }}
         run: |
           echo "Executing development job"
           # Add commands for the development job here
 
-      - name: Execute job
+      - name: Execute job1
         if: ${{ github.event.inputs.job_name == 'staging' }}
         run: |
           echo "Executing staging job"
           # Add commands for the staging job here
 
-      - name: Execute job
+      - name: Execute job2
         if: ${{ github.event.inputs.job_name == 'technical' }}
         run: |
           echo "Executing technical job"
