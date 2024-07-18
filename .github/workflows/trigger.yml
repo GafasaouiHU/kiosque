@@ -19,7 +19,7 @@ jobs:
 
       # Other steps remain the same (indentation already correct)
       - name: Set job name
-        run: echo hello
+        run: echo "${{ github.event.inputs.job_name }}"
 
       - name: Execute development job
         if: ${{ github.event.inputs.job_name == 'dev' }}
