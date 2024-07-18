@@ -13,25 +13,26 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout code  # Indentation fixed here (one level)
         uses: actions/checkout@v2
 
+      # Other steps remain the same (indentation already correct)
       - name: Set job name
         run: echo "Job Name: ${{ github.event.inputs.job_name }}"
 
-      - name: Execute job0
+      - name: Execute development job
         if: ${{ github.event.inputs.job_name == 'dev' }}
         run: |
           echo "Executing development job"
           # Add commands for the development job here
 
-      - name: Execute job1
+      - name: Execute staging job
         if: ${{ github.event.inputs.job_name == 'staging' }}
         run: |
           echo "Executing staging job"
           # Add commands for the staging job here
 
-      - name: Execute job2
+      - name: Execute technical job
         if: ${{ github.event.inputs.job_name == 'technical' }}
         run: |
           echo "Executing technical job"
