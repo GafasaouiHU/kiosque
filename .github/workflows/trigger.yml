@@ -1,59 +1,31 @@
-name: Manual Deploy to Remote Server
-
 on:
   workflow_dispatch:
-    inputs:
-      job_name:
-        description: 'Select job to executee'
-        required: true
-        options:
-          - 'deploy'
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    #if: ${{ github.ref == 'refs/heads/upgrade_rails_version' }}
-  
     steps:
-      - name: executing remote ssh commands using ssh key
-        uses: appleboy/ssh-action@v1.0.0
+      - uses: actions/checkout@v3
+
+      - name: Select environments
+        uses: dawsonone/multi-select@v4
+        id: select_env
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          script: |
-            /srv/www/altagem/script/deploy.sh
-          command_timeout: 26m 
+          title: 'Select environments to deploy'
+          options: 'dev,staging,technical'
+          default: 'dev'  # Optional: Pre-select 'dev' by default
 
-
-
-# name: Manual triggers
-
-# on:
-#   workflow_dispatch:
-#     inputs:
-#       withBackup:
-#         description: "Do you need to use a specified company database?"
-#         required: true
-#         type: "choice"
-#         options:
-#           - "yes"
-#           - "no"
-#       DatabaseName:
-#         description: "Name of the database"
-#         required: false
-#         type: "string"
-# #  push:
-# #    branches:
-# #      - feature/dockerisation
-
-# jobs:
-#   hello:
-#     runs-on: self-hosted
-
-#     steps:
-#       - name: Display Inputs
-#         run: |
-#           echo "Do you need to use a specified company database? ${{ github.event.inputs.withBackup }}"
-#           echo "Name of the database: ${{ github.event.inputs.DatabaseName }}"
+      - name: Run deployment for selected environments
+        run: |
+          echo "Deploying to environments: ${{ steps.select_env.outputs.selectedOptions }}"
+          # Add your deployment logic here, using the selected environments
+          # This part will likely involve conditional checks based on the selected options
+          if [[ ${{ steps.select_env.outputs.selectedOptions }} == *"dev"* ]]; then
+              # Perform deployment steps for dev environment
+          fi
+          if [[ ${{ steps.select_env.outputs.selectedOptions }} == *"staging"* ]]; then
+              # Perform deployment steps for staging environment
+          fi
+          if [[ ${{ steps.select_env.outputs.selectedOptions }} == *"technical"* ]]; then
+              # Perform deployment steps for technical environment
+          fi
