@@ -11,7 +11,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     #if: ${{ github.ref == 'refs/heads/upgrade_rails_version' }}
   
     steps:
