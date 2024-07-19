@@ -48,3 +48,4 @@ jobs:
         run: |
           echo "Executing technical job"
           # Add commands for the technical job here
+
